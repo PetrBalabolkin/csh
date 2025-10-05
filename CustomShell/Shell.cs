@@ -1,3 +1,5 @@
+using System.Security.AccessControl;
+
 namespace CustomShell;
 
 public class Shell
@@ -25,6 +27,9 @@ public class Shell
             if (dirName == _userName)
             {
                 dirName = "~";
+            } else if (dirName == "")
+            {
+                dirName = "/";
             }
             Console.Write($"{_userName}@{_host} {dirName} % ");
             string input = Console.ReadLine();
@@ -46,7 +51,7 @@ public class Shell
                     CmdPwd();
                     break;
                 case "ls":
-                    CmdLs();
+                    CmdLs(parts);
                     break;
                 case "cd":
                     CmdCd(args);
@@ -95,23 +100,99 @@ public class Shell
         Console.WriteLine(_currentDirectory);
     }
     
-    private void CmdLs()
+    private void CmdLs(string[] args)
     {
+        bool showHidden = args.Contains("a");
+        bool showDetails = args.Contains("l");
+        
         string[] dirs = Directory.GetDirectories(_currentDirectory);
         string[] files = Directory.GetFiles(_currentDirectory);
 
-        foreach (string dir in dirs)
+        if (!showHidden)
         {
-            string[] dirF = dir.Split("/");
-            Console.WriteLine($"{dirF[dirF.Length - 1]}");
+            dirs = dirs.Where(d => !Path.GetFileName(d).StartsWith(".")).ToArray();
+            files = files.Where(f => !Path.GetFileName(f).StartsWith(".")).ToArray();
         }
 
-        foreach (string file in files)
+        if (showDetails)
         {
-            string[] fileF = file.Split("/");
-            Console.WriteLine($"{fileF[fileF.Length - 1]}");
+            foreach (string dir in dirs)
+            {
+                DirectoryInfo di = new DirectoryInfo(dir);
+                
+                string permissions = GetUnixPermissions(di);
+                string owner = GetUnixOwner(dir);
+                long size = di.EnumerateFiles("*", SearchOption.AllDirectories).Sum(fi => fi.Length);
+                string date = di.LastWriteTime.ToString("yyyy-MM-dd HH:mm");
+                string name = di.Name;
+                Console.WriteLine($"{permissions} {owner} {size,10} {date} {name}");
+            }
+
+            foreach (string file in files)
+            {
+                FileInfo fi = new FileInfo(file);
+                
+                string permissions = GetUnixPermissions(fi);
+                string owner = GetUnixOwner(file);
+                long size = fi.Length;
+                string date = fi.LastWriteTime.ToString("yyyy-MM-dd HH:mm");
+                string name = fi.Name;
+                Console.WriteLine($"{permissions} {owner} {size,10} {date} {name}");
+            }
+        }
+        else
+        {
+            foreach (string dir in dirs)
+            {
+                string[] dirF = dir.Split("/");
+                Console.WriteLine($"{dirF[dirF.Length - 1]}");
+            }
+
+            foreach (string file in files)
+            {
+                string[] fileF = file.Split("/");
+                Console.WriteLine($"{fileF[fileF.Length - 1]}");
+            }
         }
     }
+    
+    // methody na zistovanie info
+    private string GetUnixOwner(string path)
+    {
+        try
+        {
+            var process = new System.Diagnostics.Process();
+            process.StartInfo.FileName = "stat";
+            process.StartInfo.Arguments = $"-f %Su \"{path}\"";
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.RedirectStandardOutput = true;
+            process.Start();
+            string output = process.StandardOutput.ReadToEnd().Trim();
+            process.WaitForExit();
+            return output;
+        }
+        catch
+        {
+            return Environment.UserName;
+        }
+    }
+    
+    private string GetUnixPermissions(FileSystemInfo info)
+    {
+        try
+        {
+            if (OperatingSystem.IsMacOS() || OperatingSystem.IsLinux())
+            {
+                return info.UnixFileMode.ToString().Substring(1);
+            }
+            return "rwxr-xr-x";
+        }
+        catch
+        {
+            return "rwxr-xr-x";
+        }
+    }
+    
 
     private void CmdCd(string args)
     {
@@ -374,6 +455,7 @@ public class Shell
         Console.WriteLine(@"
 Zoznam dostupnych príkazov:
 
+whoami                      - Vypise aktualne prihlaseneho uzivatela
 pwd                         - Vypise aktualnu direktoriu s datumom vytvorenia
 ls [-l]                     - Vypise obsah direktorii (-l pre detaily)
 cd <direktoria>             - Zmení direktoriu (.. = nahor, ~ = domov)
