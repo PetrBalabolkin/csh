@@ -186,11 +186,6 @@ public class Shell
 
     private void CmdRm(string[] args)
     {
-        foreach (string arg in args)
-        {
-            Console.WriteLine(arg);
-        }
-        
         if (args.Length == 0)
         {
             Console.WriteLine("rm: missing operand");
@@ -275,7 +270,47 @@ public class Shell
 
     private void CmdMv(string[] args)
     {
+        if (args.Length != 3)
+        {
+            Console.WriteLine("mv: missing operand");
+            return;
+        }
         
+        string source = Path.Combine(_currentDirectory, args[1]);
+        string destination = args[2];
+
+        if (!Path.IsPathRooted(destination))
+        {
+            destination = Path.Combine(_currentDirectory, destination);
+        }
+
+        try
+        {
+            if (File.Exists(source))
+            {
+                if (Directory.Exists(destination))
+                {
+                    string fileName = Path.GetFileName(source);
+                    destination = Path.Combine(destination, fileName);
+                }
+                
+                if (File.Exists(destination))
+                {
+                    Console.WriteLine($"The file '{destination}' already exists.");
+                    return;
+                }
+                
+                File.Move(source, destination);
+            }
+            else
+            {
+                Console.WriteLine($"mv: cannot stat '{source}': No such file");
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
     }
 
     private void CmdCat(string args)

@@ -12,3 +12,4 @@
 /Users/petrbalabolkin/RiderProjects/CustomShell/CustomShell/obj/Debug/net8.0/CustomShell.pdb
 /Users/petrbalabolkin/RiderProjects/CustomShell/CustomShell/obj/Debug/net8.0/CustomShell.genruntimeconfig.cache
 /Users/petrbalabolkin/RiderProjects/CustomShell/CustomShell/obj/Debug/net8.0/ref/CustomShell.dll
+/Users/petrbalabolkin/RiderProjects/CustomShell/CustomShell/obj/Debug/net8.0/CustomShell.sourcelink.json

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CustomShell")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4ab6db326a93214acf0ff8ddfb287ed6516673bc")]
 [assembly: System.Reflection.AssemblyProductAttribute("CustomShell")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CustomShell")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
