@@ -1,0 +1,14 @@
+/Users/petrbalabolkin/RiderProjects/CustomShell/CustomShell/bin/Debug/net8.0/CustomShell
+/Users/petrbalabolkin/RiderProjects/CustomShell/CustomShell/bin/Debug/net8.0/CustomShell.deps.json
+/Users/petrbalabolkin/RiderProjects/CustomShell/CustomShell/bin/Debug/net8.0/CustomShell.runtimeconfig.json
+/Users/petrbalabolkin/RiderProjects/CustomShell/CustomShell/bin/Debug/net8.0/CustomShell.dll
+/Users/petrbalabolkin/RiderProjects/CustomShell/CustomShell/bin/Debug/net8.0/CustomShell.pdb
+/Users/petrbalabolkin/RiderProjects/CustomShell/CustomShell/obj/Debug/net8.0/CustomShell.GeneratedMSBuildEditorConfig.editorconfig
+/Users/petrbalabolkin/RiderProjects/CustomShell/CustomShell/obj/Debug/net8.0/CustomShell.AssemblyInfoInputs.cache
+/Users/petrbalabolkin/RiderProjects/CustomShell/CustomShell/obj/Debug/net8.0/CustomShell.AssemblyInfo.cs
+/Users/petrbalabolkin/RiderProjects/CustomShell/CustomShell/obj/Debug/net8.0/CustomShell.csproj.CoreCompileInputs.cache
+/Users/petrbalabolkin/RiderProjects/CustomShell/CustomShell/obj/Debug/net8.0/CustomShell.dll
+/Users/petrbalabolkin/RiderProjects/CustomShell/CustomShell/obj/Debug/net8.0/refint/CustomShell.dll
+/Users/petrbalabolkin/RiderProjects/CustomShell/CustomShell/obj/Debug/net8.0/CustomShell.pdb
+/Users/petrbalabolkin/RiderProjects/CustomShell/CustomShell/obj/Debug/net8.0/CustomShell.genruntimeconfig.cache
+/Users/petrbalabolkin/RiderProjects/CustomShell/CustomShell/obj/Debug/net8.0/ref/CustomShell.dll
