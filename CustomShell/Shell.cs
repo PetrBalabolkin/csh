@@ -77,6 +77,9 @@ public class Shell
                 case "clear":
                     CmdClear();
                     break;
+                case "find":
+                    CmdFind(parts);
+                    break;
                 case "help":
                     CmdHelp();
                     break;
@@ -445,6 +448,46 @@ public class Shell
         }
     }
     
+    private void CmdFind(string[] args)
+    {
+        if (args.Length < 2)
+        {
+            Console.WriteLine("find: missing operand");
+            return;
+        }
+
+        string fileName = args[1];
+        string searchDir = _currentDirectory;
+
+        if (args.Length > 2)
+        {
+            searchDir = args[2];
+            if (!Path.IsPathRooted(searchDir))
+            {
+                searchDir = Path.Combine(_currentDirectory, searchDir);
+            }
+        }
+
+        if (!Directory.Exists(searchDir))
+        {
+            Console.WriteLine($"find: '{searchDir}': No such directory");
+            return;
+        }
+
+        try
+        {
+            string[] files = Directory.GetFiles(searchDir, fileName, SearchOption.AllDirectories);
+            foreach (var file in files)
+            {
+                Console.WriteLine(file);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+    
     private void CmdClear()
     {
         Console.Clear();
@@ -468,6 +511,7 @@ cat <subor>                 - Zobrazi obsah súboru
 stat <subor>                - Zobrazi detailne info o subore
 touch <subor>               - Vytvori prazdny subor
 clear                       - Vycisti obrazovku
+find <subor> [direktoria]   - Najde subor v direktorii a poddirektoriach
 help                        - Zobrazi tuto napovedu
 exit                        - Ukonci program
          ");
